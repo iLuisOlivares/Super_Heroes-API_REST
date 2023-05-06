@@ -16,14 +16,10 @@ Go to the project directory
   cd Super_Heroes-API_REST
 ```
 
-Install dependencies
+Install virtual environment
 
 ```bash
   sudo apt install python3-venv
-```
-
-```bash
-  pip install -r requirements.txt
 ```
 
 Create virtual environment
@@ -36,6 +32,12 @@ Activate virtual environment
 
 ```bash
   source env/bin/activate
+```
+
+Install dependencies
+
+```bash
+  pip install -r requirements.txt
 ```
 
 Start the server
@@ -66,10 +68,10 @@ In localhost: http://127.0.0.1:8000/ API_REFERENCE
   POST /api/superheroes/
 ```
 
-#### Get, Post and Delete a Hero
+#### Get, Put and Delete a Hero
 
 ```http
-  GET | POST | DELETE  /api/superheroes/${id}
+  GET | PUT | DELETE  /api/superheroes/${id}
 ```
 
 | Parameter | Type     | Description                            |
