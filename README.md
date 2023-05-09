@@ -4,6 +4,8 @@ API REST que contiene informacion de los principales super heroes y villanos de 
 
 ## Run Locally
 
+<hr>
+#### 1. Download the project
 Clone the project
 
 ```bash
@@ -16,7 +18,7 @@ Go to the project directory
   cd Super_Heroes-API_REST
 ```
 
-Install virtual environment
+#### 2. Install virtual environment
 
 ```bash
   sudo apt install python3-venv
@@ -34,13 +36,13 @@ Activate virtual environment
   source env/bin/activate
 ```
 
-Install dependencies
+#### 3. Install dependencies
 
 ```bash
   pip install -r requirements.txt
 ```
 
-Start the server
+#### 4. Start the server
 
 ```bash
   cd super_hero_API/
