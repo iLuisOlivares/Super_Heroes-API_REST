@@ -19,10 +19,12 @@ class LocationView(View):
         return super().dispatch(request, *args, **kwargs)
 
     @retry(stop_max_attempt_number=3, wait_fixed=1000)
-    def get(self, request, id=0):
+    def get(self, request, id=0, name=""):
         if id != 0:
             locations = list(Location.objects.filter(id=id).values())
-
+        elif name != "":
+            locations = list(Location.objects.filter(
+                city__icontains=name.lower().capitalize()).values())
         else:
             locations = list(Location.objects.values())
         if (len(locations) == 1):
