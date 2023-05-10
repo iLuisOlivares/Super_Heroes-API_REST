@@ -2,7 +2,7 @@
 
 API REST que contiene informacion de los principales super heroes y villanos de los universo de Comics de DC y Marvel.
 
-## Run Locally
+## 🚀 Run Locally
 
 ---
 
@@ -56,13 +56,13 @@ Activate virtual environment
 
 Go to for example - http://127.0.0.1:8000/api/superheroes/
 
-## API Reference - Superheroes
+## 🔵 API Reference
 
 ---
 
 In localhost: http://127.0.0.1:8000/ API_REFERENCE
 
-### Super Heroes
+### 🦸 Super Heroes
 
 ---
 
@@ -78,6 +78,16 @@ In localhost: http://127.0.0.1:8000/ API_REFERENCE
   POST /api/superheroes/
 ```
 
+#### Get a Hero by name
+
+```http
+  GET /api/superheroes/${name}
+```
+
+| Parameter | Type     | Description                              |
+| :-------- | :------- | :--------------------------------------- |
+| `name`    | `string` | **Required**. Name of Superhero to fetch |
+
 #### Get, Put and Delete a Hero by id
 
 ```http
@@ -88,17 +98,7 @@ In localhost: http://127.0.0.1:8000/ API_REFERENCE
 | :-------- | :---- | :------------------------------------- |
 | `id`      | `int` | **Required**. Id of Superhero to fetch |
 
-#### Get, Put and Delete a Hero by name
-
-```http
-  GET | PUT | DELETE  /api/superheroes/${name}
-```
-
-| Parameter | Type     | Description                              |
-| :-------- | :------- | :--------------------------------------- |
-| `name`    | `string` | **Required**. Name of Superhero to fetch |
-
-### Super Villain
+### 🦹 Super Villain
 
 ---
 
@@ -114,6 +114,16 @@ In localhost: http://127.0.0.1:8000/ API_REFERENCE
   POST /api/supervillain/
 ```
 
+#### Get a Vilain by name
+
+```http
+  GET /api/supervillain/${name}
+```
+
+| Parameter | Type     | Description                                 |
+| :-------- | :------- | :------------------------------------------ |
+| `name`    | `string` | **Required**. Name of Supervillain to fetch |
+
 #### Get, Put and Delete a Villain by id
 
 ```http
@@ -124,17 +134,7 @@ In localhost: http://127.0.0.1:8000/ API_REFERENCE
 | :-------- | :---- | :---------------------------------------- |
 | `id`      | `int` | **Required**. Id of Supervillain to fetch |
 
-#### Get, Put and Delete a Vilain by name
-
-```http
-  GET | PUT | DELETE  /api/supervillain/${name}
-```
-
-| Parameter | Type     | Description                                 |
-| :-------- | :------- | :------------------------------------------ |
-| `name`    | `string` | **Required**. Name of Supervillain to fetch |
-
-### Locations
+### 🌇 Locations
 
 ---
 
@@ -150,30 +150,30 @@ In localhost: http://127.0.0.1:8000/ API_REFERENCE
   POST /api/locations/
 ```
 
-#### Get, Put and Delete a Location by id
+#### Get a Location by name
 
 ```http
-  GET | PUT | DELETE  /api/locations/${id}
-```
-
-| Parameter | Type     | Description                           |
-| :-------- | :------- | :------------------------------------ |
-| `id`      | `string` | **Required**. Id of Location to fetch |
-
-#### Get, Put and Delete a Location by name
-
-```http
-  GET | PUT | DELETE  /api/locations/${name}
+  GET /api/locations/${name}
 ```
 
 | Parameter | Type     | Description                             |
 | :-------- | :------- | :-------------------------------------- |
 | `name`    | `string` | **Required**. Name of Location to fetch |
 
+#### Get, Put and Delete a Location by id
+
+```http
+  GET | PUT | DELETE  /api/locations/${id}
+```
+
+| Parameter | Type  | Description                           |
+| :-------- | :---- | :------------------------------------ |
+| `id`      | `int` | **Required**. Id of Location to fetch |
+
 ---
 
 ##### Se utilizo la libreria retrying para usar el patron retry
 
-## Authors
+## 👨‍💻 Authors
 
 - [@iLuisOlivares](https://www.github.com/iluisolivares)
