@@ -9,14 +9,18 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 import json
 
+# Importar patron retry
+from retrying import retry
+
 
 class SuperheroView(View):
 
-    @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
+    @retry(stop_max_attempt_number=3, wait_fixed=1000)
     def get(self, request, id=0, name=""):
+        print("\n Probando patron retry \n")
         if id != 0:
             superheroes = list(Superhero.objects.filter(id=id).values())
         elif name != "":
@@ -38,6 +42,7 @@ class SuperheroView(View):
 
         return JsonResponse(datos, status=200)
 
+    @retry(stop_max_attempt_number=3, wait_fixed=3000)
     def post(self, request):
 
         body = json.loads(request.body)
@@ -53,6 +58,7 @@ class SuperheroView(View):
         datos = {"message": "saved successfully",  "data": body}
         return JsonResponse(datos)
 
+    @retry(stop_max_attempt_number=3, wait_fixed=1000)
     def put(self, request, id):
         body = json.loads(request.body)
         superheroes = list(Superhero.objects.filter(id=id).values())
@@ -71,6 +77,7 @@ class SuperheroView(View):
 
         return JsonResponse(datos)
 
+    @retry(stop_max_attempt_number=3, wait_fixed=1000)
     def delete(self, request, id):
         superheroes = list(Superhero.objects.filter(id=id).values())
         if len(superheroes) > 0:

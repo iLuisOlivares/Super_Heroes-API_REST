@@ -9,6 +9,9 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 import json
 
+# Importar patron retry
+from retrying import retry
+
 
 class SupervillainView(View):
 
@@ -16,6 +19,7 @@ class SupervillainView(View):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
+    @retry(stop_max_attempt_number=3, wait_fixed=1000)
     def get(self, request, id=0, name=""):
         if id != 0:
             supervillain = list(SuperVillain.objects.filter(id=id).values())
@@ -38,6 +42,7 @@ class SupervillainView(View):
 
         return JsonResponse(datos, status=200)
 
+    @retry(stop_max_attempt_number=3, wait_fixed=1000)
     def post(self, request):
 
         body = json.loads(request.body)
@@ -54,6 +59,7 @@ class SupervillainView(View):
         datos = {"message": "saved successfully",  "data": body}
         return JsonResponse(datos)
 
+    @retry(stop_max_attempt_number=3, wait_fixed=1000)
     def put(self, request, id):
         body = json.loads(request.body)
         supervillain = list(SuperVillain.objects.filter(id=id).values())
@@ -73,6 +79,7 @@ class SupervillainView(View):
 
         return JsonResponse(datos)
 
+    @retry(stop_max_attempt_number=3, wait_fixed=1000)
     def delete(self, request, id):
         supervillain = list(SuperVillain.objects.filter(id=id).values())
         if len(supervillain) > 0:

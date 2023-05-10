@@ -8,6 +8,9 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 import json
 
+# Patron retry
+from retrying import retry
+
 
 class LocationView(View):
 
@@ -15,6 +18,7 @@ class LocationView(View):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
+    @retry(stop_max_attempt_number=3, wait_fixed=1000)
     def get(self, request, id=0):
         if id != 0:
             locations = list(Location.objects.filter(id=id).values())
@@ -35,6 +39,7 @@ class LocationView(View):
 
         return JsonResponse(datos, status=200)
 
+    @retry(stop_max_attempt_number=3, wait_fixed=1000)
     def post(self, request):
 
         json_data = json.loads(request.body)
@@ -46,6 +51,7 @@ class LocationView(View):
         datos = {"message": "saved successfully",  "data": json_data}
         return JsonResponse(datos)
 
+    @retry(stop_max_attempt_number=3, wait_fixed=1000)
     def put(self, request, id):
         jd = json.loads(request.body)
         location = list(Location.objects.filter(id=id).values())
@@ -61,6 +67,7 @@ class LocationView(View):
 
         return JsonResponse(datos)
 
+    @retry(stop_max_attempt_number=3, wait_fixed=1000)
     def delete(self, request, id):
         locations = list(Location.objects.filter(id=id).values())
         if len(locations) > 0:
