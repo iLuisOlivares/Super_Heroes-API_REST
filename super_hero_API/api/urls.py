@@ -1,7 +1,24 @@
 from django.urls import path
+from rest_framework import routers
 from .vistas.SuperheroView import SuperheroView
 from .vistas.LocationView import LocationView
 from .vistas.SupervillainView import SupervillainView
+
+router = routers.DefaultRouter()
+
+# router.register('superheroes', SuperheroView, 'api')
+# router.register('superheroes/<int>:id', SuperheroView, 'api')
+# router.register('superheroes/<name>', SuperheroView, 'api')
+
+# router.register('supervillain', SupervillainView, 'api')
+# router.register('supervillain/<int>:id', SupervillainView, 'api')
+# router.register('supervillain/<name>', SupervillainView, 'api')
+
+# router.register('locations', LocationView, 'api')
+# router.register('locations/<int>:id', LocationView, 'api')
+# router.register('locations/<name>', LocationView, 'api')
+
+# urlPatterns = router.urls
 
 urlpatterns = [
     
