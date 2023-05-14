@@ -4,17 +4,28 @@ from .vistas.LocationView import LocationView
 from .vistas.SupervillainView import SupervillainView
 
 urlpatterns = [
+    
+    # Urls de Superhero
+    # Obtener todos los superheroes
     path('superheroes/', SuperheroView.as_view(), name='superhero_list'),
-    path('superheroes/<int:id>', SuperheroView.as_view(),
-         name='superhero_process'),
-    path('superheroes/<name>', SuperheroView.as_view(),
-         name='superhero_process'),
+     # GET, PUT DELETE | superhero por id
+    path('superheroes/<int:id>', SuperheroView.as_view(),name='superhero_process'),
+     # Filtrar superheroes por nombre
+    path('superheroes/<name>', SuperheroView.as_view(),name='superhero_process'),
+
+     # Urls de Supervillain
+     # Obtener todos los supervillanos
     path('supervillain/', SupervillainView.as_view(), name='supervillain_list'),
-    path('supervillain/<int:id>', SupervillainView.as_view(),
-         name='supervillain_process'),
-    path('supervillain/<name>', SupervillainView.as_view(),
-         name='supervillain_process'),
+    # GET, PUT DELETE | supervillano por id
+    path('supervillain/<int:id>', SupervillainView.as_view(),name='supervillain_process'),
+     # Filtrar supervillanos por nombre
+    path('supervillain/<name>', SupervillainView.as_view(),name='supervillain_process'),
+
+     # Urls de Location
+     # Obtener todos los locations
     path('locations/', LocationView.as_view(), name='location_list'),
+    # GET, PUT DELETE | location por id
     path('locations/<int:id>', LocationView.as_view(), name='location_process'),
+    # Filtrar locations por nombre
     path('locations/<name>', LocationView.as_view(), name='location_process'),
 ]
