@@ -3,7 +3,7 @@ from django import http
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views import View
-from ..models import SuperVillain
+from ..models import Supervillain
 from ..models import Location
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -19,15 +19,18 @@ class SupervillainView(View):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
+
+    # Metodo get
+
     @retry(stop_max_attempt_number=3, wait_fixed=1000)
     def get(self, request, id=0, name=""):
         if id != 0:
-            supervillain = list(SuperVillain.objects.filter(id=id).values())
+            supervillain = list(Supervillain.objects.filter(id=id).order_by('id').values())
         elif name != "":
-            supervillain = list(SuperVillain.objects.filter(
-                name__icontains=name.lower().capitalize()).values())
+            supervillain = list(Supervillain.objects.filter(
+                name__icontains=name.lower().capitalize()).order_by('id').values())
         else:
-            supervillain = list(SuperVillain.objects.values())
+            supervillain = list(Supervillain.objects.order_by('id').values())
 
         if (len(supervillain) == 1):
             datos = {"message": "success",
@@ -42,12 +45,15 @@ class SupervillainView(View):
 
         return JsonResponse(datos, status=200)
 
+
+    # Metodo post
+
     @retry(stop_max_attempt_number=3, wait_fixed=1000)
     def post(self, request):
 
         body = json.loads(request.body)
 
-        SuperVillain.objects.create(
+        Supervillain.objects.create(
             name=body['name'],
             alias=body['alias'],
             description=body['description'],
@@ -59,19 +65,31 @@ class SupervillainView(View):
         datos = {"message": "saved successfully",  "data": body}
         return JsonResponse(datos)
 
+    # Metodo put
+
     @retry(stop_max_attempt_number=3, wait_fixed=1000)
     def put(self, request, id):
         body = json.loads(request.body)
-        supervillain = list(SuperVillain.objects.filter(id=id).values())
+        supervillain = list(Supervillain.objects.filter(id=id).order_by('id').values())
         if len(supervillain) > 0:
-            location_instance = Location.objects.get(pk=body['location_id'])
-            supervillain = SuperVillain.objects.get(id=id)
-            supervillain.name = body['name']
-            supervillain.alias = body['alias']
-            supervillain.description = body['description']
-            supervillain.publisher = body['publisher']
-            supervillain.nemesis = body['nemesis']
-            supervillain.location_id = location_instance
+            supervillain = Supervillain.objects.get(id=id)
+            
+            if 'name' in body:
+                supervillain.name = body['name']
+
+            if 'alias' in body:
+                supervillain.alias = body['alias']
+
+            if 'description' in body:
+                supervillain.description = body['description']
+
+            if 'publisher' in body:
+                supervillain.publisher = body['publisher']
+
+            if 'location_id' in body:
+                location_instance = Location.objects.get(pk=body['location_id'])
+                supervillain.location_id = location_instance
+                
             supervillain.save()
             datos = {"message": "updated successfully", "data": body}
         else:
@@ -79,11 +97,13 @@ class SupervillainView(View):
 
         return JsonResponse(datos)
 
+    # Metodo delete
+    
     @retry(stop_max_attempt_number=3, wait_fixed=1000)
     def delete(self, request, id):
-        supervillain = list(SuperVillain.objects.filter(id=id).values())
+        supervillain = list(Supervillain.objects.filter(id=id).order_by('id').values())
         if len(supervillain) > 0:
-            SuperVillain.objects.get(id=id).delete()
+            Supervillain.objects.get(id=id).delete()
             datos = {"message": "deleted successfully"}
         else:
             datos = {"message": "No superhero found"}

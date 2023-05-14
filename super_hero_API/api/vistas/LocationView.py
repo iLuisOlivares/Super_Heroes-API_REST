@@ -18,15 +18,16 @@ class LocationView(View):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
+    # Metodo get
     @retry(stop_max_attempt_number=3, wait_fixed=1000)
     def get(self, request, id=0, name=""):
         if id != 0:
-            locations = list(Location.objects.filter(id=id).values())
+            locations = list(Location.objects.filter(id=id).order_by('id').values())
         elif name != "":
             locations = list(Location.objects.filter(
-                city__icontains=name.lower().capitalize()).values())
+                city__icontains=name.lower().capitalize()).order_by('id').values())
         else:
-            locations = list(Location.objects.values())
+            locations = list(Location.objects.order_by('id').values())
         if (len(locations) == 1):
             datos = {"message": "success",
                      "location": locations[0]
@@ -41,37 +42,49 @@ class LocationView(View):
 
         return JsonResponse(datos, status=200)
 
+    # Metodo post
+
     @retry(stop_max_attempt_number=3, wait_fixed=1000)
     def post(self, request):
 
-        json_data = json.loads(request.body)
+        body = json.loads(request.body)
         Location.objects.create(
-            city=json_data['city'],
-            country=json_data['country'],
-            description=json_data['description'])
+            city=body['city'],
+            country=body['country'],
+            description=body['description'])
 
-        datos = {"message": "saved successfully",  "data": json_data}
+        datos = {"message": "saved successfully",  "data": body}
         return JsonResponse(datos)
+
+    # Metodo put
 
     @retry(stop_max_attempt_number=3, wait_fixed=1000)
     def put(self, request, id):
-        jd = json.loads(request.body)
-        location = list(Location.objects.filter(id=id).values())
+        body = json.loads(request.body)
+        location = list(Location.objects.filter(id=id).order_by('id').values())
         if len(location) > 0:
             location = Location.objects.get(id=id)
-            location.name = jd['name']
-            location.city = jd['city']
-            location.country = jd['country']
+
+            if 'name' in body:
+                location.name = body['name']
+
+            if 'alias' in body:
+                location.city = body['city']
+
+            if 'description' in body:
+                location.country = body['country']
             location.save()
-            datos = {"message": "updated successfully", "data": jd}
+            datos = {"message": "updated successfully", "data": body}
         else:
             datos = {"message": "No location found"}
 
         return JsonResponse(datos)
 
+    # Metodo delete
+    
     @retry(stop_max_attempt_number=3, wait_fixed=1000)
     def delete(self, request, id):
-        locations = list(Location.objects.filter(id=id).values())
+        locations = list(Location.objects.filter(id=id).order_by('id').values())
         if len(locations) > 0:
             Location.objects.get(id=id).delete()
             datos = {"message": "deleted successfully"}
