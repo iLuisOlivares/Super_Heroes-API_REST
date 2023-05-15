@@ -2,16 +2,20 @@ from django.urls import path
 from rest_framework import routers
 from .viewsets import SuperheroViewSet, SupervillainViewSet, LocationViewSet
 
+from .vistas.CounterView import CounterView
 
 router = routers.DefaultRouter()
 
 router.register('api/superheroes', SuperheroViewSet, 'superh')
 
-router.register('api/supervillain', SupervillainViewSet, 'superv')
+router.register('api/supervillains', SupervillainViewSet, 'superv')
 
 router.register('api/locations', LocationViewSet, 'superl')
 
-urlpatterns = router.urls
+urlpatterns = router.urls + [
+
+    path('api/counter', CounterView.as_view(), name='counter_list'),
+]
 
 
 
