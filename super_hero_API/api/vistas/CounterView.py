@@ -22,8 +22,8 @@ class CounterView(View):
 
 
 
-    # Saber la cantidad de entidades en la base de datos
-    @retry(stop_max_attempt_number=5, wait_fixed=1000)
+    # Saber la cantidad de entidades en la base de datos    
+    @retry(stop_max_attempt_number=3, wait_fixed=1000)
     def get(self, request, id=0, name=""):
         print("\nVerificando el patron retry")
 
