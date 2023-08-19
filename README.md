@@ -28,8 +28,16 @@ Go to the project directory
 
 Create virtual environment
 
+**On Ubuntu**
+
 ```bash
   virtualenv -p python3 env
+```
+
+**On Manjaro**
+
+```bash
+  python -m venv env
 ```
 
 Activate virtual environment
